@@ -1,0 +1,36 @@
+:root { color-scheme: dark; font: 14px/1.4 system-ui, sans-serif; background: #0b0e14; color: #e6e9ef; }
+* { box-sizing: border-box; }
+body, #root { margin: 0; height: 100vh; }
+.shell { display: grid; grid-template-columns: 240px 1fr 320px; height: 100%; }
+.side { padding: 16px; border-right: 1px solid #1e2430; overflow: auto; }
+.side.right { border-right: 0; border-left: 1px solid #1e2430; }
+.center { position: relative; min-width: 0; }
+.viewer { position: absolute; inset: 0; }
+.viewer canvas { display: block; width: 100% !important; height: 100% !important; }
+h1 { font-size: 15px; margin: 0 0 12px; }
+dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; }
+dt { color: #8a93a6; } dd { margin: 0; }
+.muted { color: #8a93a6; } .err { color: #ff6b6b; }
+
+h2 { font-size: 13px; margin: 16px 0 8px; color: #c7cdd8; }
+.side.right { padding: 0; }
+.panel { padding: 12px 16px; }
+.tabs { display: flex; flex-direction: column; height: 100%; }
+.tab-bar { display: flex; gap: 2px; padding: 6px 8px 0; border-bottom: 1px solid #1e2430; flex: none; }
+.tab-bar button { background: none; border: 0; color: #8a93a6; padding: 6px 10px; border-radius: 6px 6px 0 0; cursor: pointer; font: inherit; }
+.tab-bar button.is-active { color: #e6e9ef; background: #141a24; }
+.tab-body { position: relative; flex: 1; min-height: 0; overflow: auto; }
+.center .tab-body { overflow: hidden; }
+.smiles { display: block; margin: 0 auto 8px; }
+table.atoms { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 12px; }
+table.atoms th { text-align: left; color: #8a93a6; font-weight: 500; padding: 4px 6px; }
+table.atoms td { padding: 3px 6px; border-top: 1px solid #161b26; }
+table.atoms tr { cursor: pointer; }
+table.atoms tr.is-hovered { background: #1b2230; }
+table.atoms tr.is-selected { background: #173424; color: #b8ffd0; }
+.jobs { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.job-row { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; margin-bottom: 4px; }
+.bar { height: 4px; background: #1e2430; border-radius: 2px; overflow: hidden; }
+.bar-fill { height: 100%; background: #4f8cff; transition: width .3s; }
+.job-done .bar-fill { background: #3ddc84; }
+.molstar .msp-plugin { position: absolute; inset: 0; }
