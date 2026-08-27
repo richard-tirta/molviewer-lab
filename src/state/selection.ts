@@ -12,11 +12,40 @@ import { useSyncExternalStore } from 'react';
  */
 export type Selection = { hoveredSerial: number | null; selectedSerial: number | null };
 
-// TEMPORARY non-throwing stub so the viewer renders while you review atomCloud.
-// TODO(richard): replace with the real store (subscribe / getSnapshot / emit).
-const EMPTY: Selection = { hoveredSerial: null, selectedSerial: null };
-export function useSelection(): Selection {
-  return EMPTY;
+// (1) One slot holding the current state. The VARIABLE gets reassigned; the
+// OBJECT is never mutated — that's what lets React detect a change by reference.
+let state: Selection = { hoveredSerial: null, selectedSerial: null };
+
+// (2) Who wants to know when it changes.
+const listeners = new Set<() => void>();
+
+export function subscribe(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener); // React calls this on unmount
 }
-export function setHovered(_serial: number | null) {}
-export function setSelected(_serial: number | null) {}
+
+// (3) "Something changed" — no payload; React re-reads getSnapshot itself.
+function emit() {
+  listeners.forEach((l) => l());
+}
+
+export function getSnapshot(): Selection {
+  return state;
+}
+
+export function useSelection(): Selection {
+  return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+}
+
+// (4) Setters: bail if nothing changes, else REPLACE the object and emit.
+export function setHovered(serial: number | null) {
+  if (serial === state.hoveredSerial) return;
+  state = { ...state, hoveredSerial: serial };
+  emit();
+}
+
+export function setSelected(serial: number | null) {
+  if (serial === state.selectedSerial) return;
+  state = { ...state, selectedSerial: serial };
+  emit();
+}
